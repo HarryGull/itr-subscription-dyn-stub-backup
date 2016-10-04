@@ -39,7 +39,6 @@ import play.api.libs.json.Json
 import play.api.test.Helpers._
 import play.api.mvc.Result
 import scala.concurrent.Future
-import java.time.Instant
 import common.Regex._
 
 class SubscriptionStubControllerSpec extends UnitSpec with WithFakeApplication {
