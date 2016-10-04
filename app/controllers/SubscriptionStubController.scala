@@ -16,6 +16,8 @@
 
 package controllers
 
+import java.text.SimpleDateFormat
+
 import auth.{Authorisation, Authorised, NotAuthorised}
 import play.api.Logger
 import uk.gov.hmrc.play.microservice.controller.BaseController
@@ -23,8 +25,12 @@ import play.api.libs.json._
 import model._
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
+import common.Validation._
+import common.Generators._
 
 import scala.concurrent.Future
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
   * The controller for the Investment Tax Relief Subscription service REST API dynamic stub
@@ -38,6 +44,7 @@ object SubscriptionStubController extends SubscriptionStubController {
 trait SubscriptionStubController extends BaseController with Authorisation {
 
   val response = (message: String) => s"""{"reason" : "$message"}"""
+  val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
 
   def createSubscription(safeId: String): Action[JsValue] = Action.async(BodyParsers.parse.json) { implicit request =>
     authorised {
@@ -63,17 +70,9 @@ trait SubscriptionStubController extends BaseController with Authorisation {
           case (true, "missingregime") => Future.successful(InternalServerError(response("Error 500")))
           case (true, "sapnumbermissing") => Future.successful(InternalServerError(response("Error 500")))
           case (true, "notprocessed") => Future.successful(ServiceUnavailable(response("Error 503")))
-          case (true, _) => Future.successful(Created(Json.toJson(SubscriptionResponse("2014-12-17T09:30:47Z", "YAA1234567890"))))
+          case (true, _) => Future.successful(Created(Json.toJson(SubscriptionResponse(LocalDateTime.now().format(formatter), generateTavcReference))))
           case (false, _) => Future.successful(BadRequest(response("Your submission contains one or more errors")))
         }
       }
     )
-
-  private def safeIdValidationCheck(safeId: String): Boolean = {
-    val pattern = """^X[A-Z]000[0-9]{10}$""".r
-    safeId match {
-      case pattern() => true
-      case _ => false
-    }
-  }
 }

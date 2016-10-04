@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package model
+package common
 
-import play.api.libs.json.Json
+import scala.util.Random
 
-case class SubscriptionResponse(processingDate: String, tavcRegNumber: String)
+object Generators {
 
-object SubscriptionResponse {
-  implicit val formats = Json.format[SubscriptionResponse]
+  def generateCapitalLetter: Char = {
+    val charRange = 65 to 90
+    charRange(Random.nextInt(charRange.length)).toChar
+  }
+
+  def generateTavcReference: String = {
+    s"X${generateCapitalLetter}TAVC000${"%06d" format Random.nextInt(999999)}"
+  }
+
 }

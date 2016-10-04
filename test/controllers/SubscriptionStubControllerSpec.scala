@@ -35,10 +35,12 @@ package controllers
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import helpers.AuthHelpers._
 import helpers.SubmissionHelpers._
+import play.api.libs.json.Json
 import play.api.test.Helpers._
 import play.api.mvc.Result
-
 import scala.concurrent.Future
+import java.time.Instant
+import common.Regex._
 
 class SubscriptionStubControllerSpec extends UnitSpec with WithFakeApplication {
   object TestController extends SubscriptionStubController {
@@ -51,8 +53,30 @@ class SubscriptionStubControllerSpec extends UnitSpec with WithFakeApplication {
       val result: Future[Result] = TestController.createSubscription(validSafeId)
         .apply(validRequest.withBody(subscriptionRequest(validSafeId)))
 
-      "return a subscription response" in {
-        contentAsString(result) shouldBe """{"processingDate":"2014-12-17T09:30:47Z","tavcRefNumber":"YAA1234567890"}"""
+      "return a Processing Date" which {
+        val json = Json.parse(contentAsString(result))
+        val processingDate = (json \ "processingDate").validate[String].get
+
+        "is non empty" in {
+          processingDate.nonEmpty shouldBe true
+        }
+
+        "matches the regular expression" in {
+          processingDateRegex.pattern.matcher(processingDate).matches shouldBe true
+        }
+      }
+
+      "return a TavcReference" which {
+        val json = Json.parse(contentAsString(result))
+        val tavcRef = (json \ "tavcRegNumber").validate[String].get
+
+        "is non empty" in {
+          tavcRef.nonEmpty shouldBe true
+        }
+
+        "matches the regular expression" in {
+          tavcReferenceRegex.pattern.matcher(tavcRef).matches shouldBe true
+        }
       }
 
       "return CREATED" in {

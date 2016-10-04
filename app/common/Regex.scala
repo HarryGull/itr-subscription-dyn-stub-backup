@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-package model
+package common
 
-import play.api.libs.json.Json
-
-case class SubscriptionResponse(processingDate: String, tavcRegNumber: String)
-
-object SubscriptionResponse {
-  implicit val formats = Json.format[SubscriptionResponse]
+object Regex {
+  val tavcReferenceRegex = """^X[A-Z]TAVC000[0-9]{6}$""".r
+  val processingDateRegex = """^\d\d\d\d-([0-9]{1,2})-([0-9]{1,2})T([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,3})Z$""".r
 }

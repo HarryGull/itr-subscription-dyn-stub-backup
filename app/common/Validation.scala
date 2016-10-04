@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package model
+package common
 
-import play.api.libs.json.Json
+object Validation {
 
-case class SubscriptionResponse(processingDate: String, tavcRegNumber: String)
+  def safeIdValidationCheck(safeId: String): Boolean = """^X[A-Z]000[0-9]{10}$""".r.pattern.matcher(safeId).matches
 
-object SubscriptionResponse {
-  implicit val formats = Json.format[SubscriptionResponse]
 }
