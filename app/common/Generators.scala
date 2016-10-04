@@ -16,17 +16,19 @@
 
 package common
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 import scala.util.Random
 
 object Generators {
 
-  def generateCapitalLetter: Char = {
-    val charRange = 65 to 90
-    charRange(Random.nextInt(charRange.length)).toChar
-  }
+  val capitalLetterCharRange = 65 to 90
+  val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
 
-  def generateTavcReference: String = {
-    s"X${generateCapitalLetter}TAVC000${"%06d" format Random.nextInt(999999)}"
-  }
+  def generateCapitalLetter: Char = capitalLetterCharRange(Random.nextInt(capitalLetterCharRange.length)).toChar
 
+  def generateTavcReference: String = s"X${generateCapitalLetter}TAVC000${"%06d" format Random.nextInt(999999)}"
+
+  def currentDateTime: String = LocalDateTime.now().format(dateFormatter)
 }

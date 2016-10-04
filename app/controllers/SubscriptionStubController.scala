@@ -44,21 +44,19 @@ object SubscriptionStubController extends SubscriptionStubController {
 trait SubscriptionStubController extends BaseController with Authorisation {
 
   val response = (message: String) => s"""{"reason" : "$message"}"""
-  val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
 
   def createSubscription(safeId: String): Action[JsValue] = Action.async(BodyParsers.parse.json) { implicit request =>
     authorised {
       case Authorised => {
         Logger.info(s"[TAVCSubscriptionController][subscribe]")
         val subscriptionApplicationBodyJs = request.body.validate[SubscriptionRequest]
-
         checkApplicationBody(safeId,subscriptionApplicationBodyJs)
       }
       case NotAuthorised(error) => Future.successful(Unauthorized(error))
     }
   }
 
-  private def checkApplicationBody(safeId: String, subscriptionApplicationBodyJs: JsResult[SubscriptionRequest]) =
+  private def checkApplicationBody(safeId: String, subscriptionApplicationBodyJs: JsResult[SubscriptionRequest]) = {
     subscriptionApplicationBodyJs.fold(
       errors => Future.successful(BadRequest("""{"reason" : "Invalid JSON message received"}""")),
       submitRequest => {
@@ -70,9 +68,10 @@ trait SubscriptionStubController extends BaseController with Authorisation {
           case (true, "missingregime") => Future.successful(InternalServerError(response("Error 500")))
           case (true, "sapnumbermissing") => Future.successful(InternalServerError(response("Error 500")))
           case (true, "notprocessed") => Future.successful(ServiceUnavailable(response("Error 503")))
-          case (true, _) => Future.successful(Created(Json.toJson(SubscriptionResponse(LocalDateTime.now().format(formatter), generateTavcReference))))
+          case (true, _) => Future.successful(Created(Json.toJson(SubscriptionResponse(currentDateTime, generateTavcReference))))
           case (false, _) => Future.successful(BadRequest(response("Your submission contains one or more errors")))
         }
       }
     )
+  }
 }

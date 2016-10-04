@@ -16,8 +16,8 @@
 
 package common
 
+import common.Regex._
+
 object Validation {
-
-  def safeIdValidationCheck(safeId: String): Boolean = """^X[A-Z]000[0-9]{10}$""".r.pattern.matcher(safeId).matches
-
+  val safeIdValidationCheck: String => Boolean = safeId => safeIdRegex.pattern.matcher(safeId).matches
 }
