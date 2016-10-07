@@ -22,11 +22,11 @@ object SubmissionHelpers {
 
   val subscriptionRequest = (reference: String) =>
   Json.parse(s"""{
-    "acknowledgementReference": "$reference",
+    "acknowledgementReference": "ABC1234567890",
     "subscriptionType": {
       "correspondenceDetails": {
         "contactName": {
-          "name1": "John",
+          "name1": "$reference",
           "name2": "Smith"
         },
         "contactDetails": {

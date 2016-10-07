@@ -55,7 +55,7 @@ trait SubscriptionStubController extends BaseController with Authorisation {
     subscriptionApplicationBodyJs.fold(
       errors => Future.successful(BadRequest("""{"reason" : "Invalid JSON message received"}""")),
       submitRequest => {
-        (safeIdValidationCheck(safeId), submitRequest.acknowledgementReference) match {
+        (safeIdValidationCheck(safeId), submitRequest.subscriptionType.correspondenceDetails.contactName.get.name1) match {
           case (true, "notfound") => Future.successful(NotFound)
           case (true, "duplicate") => Future.successful(BadRequest(response("Error 400")))
           case (true, "servererror") => Future.successful(InternalServerError(response("Server error")))
