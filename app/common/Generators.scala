@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-package model
+package common
 
-import play.api.libs.json.Json
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-case class SubscriptionResponse(processingDate: String, tavcRegNumber: String)
+import scala.util.Random
 
-object SubscriptionResponse {
-  implicit val formats = Json.format[SubscriptionResponse]
+object Generators {
+
+  val capitalLetterCharRange = 65 to 90
+  val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+
+  def generateCapitalLetter: Char = capitalLetterCharRange(Random.nextInt(capitalLetterCharRange.length)).toChar
+
+  def generateTavcReference: String = s"X${generateCapitalLetter}TAVC000${"%06d" format Random.nextInt(999999)}"
+
+  def currentDateTime: String = LocalDateTime.now().format(dateFormatter)
 }

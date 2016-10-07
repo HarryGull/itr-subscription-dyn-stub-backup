@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package model
+package common
 
-import play.api.libs.json.Json
+import common.Regex._
 
-case class SubscriptionResponse(processingDate: String, tavcRegNumber: String)
-
-object SubscriptionResponse {
-  implicit val formats = Json.format[SubscriptionResponse]
+object Validation {
+  val safeIdValidationCheck: String => Boolean = safeId => safeIdRegex.pattern.matcher(safeId).matches
 }
