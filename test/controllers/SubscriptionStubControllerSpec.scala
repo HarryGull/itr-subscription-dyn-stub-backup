@@ -84,6 +84,20 @@ class SubscriptionStubControllerSpec extends UnitSpec with WithFakeApplication {
 
     }
 
+    "invalid json is sent" should {
+      val result: Future[Result] = TestController.createSubscription(validSafeId)
+        .apply(validRequest.withBody(Json.parse("{}")))
+
+      "return an invalid json response" in {
+        contentAsString(result) shouldBe """{"reason" : "Invalid JSON message received"}"""
+      }
+
+      "return BAD_REQUEST" in {
+        status(result) shouldBe BAD_REQUEST
+      }
+
+    }
+
     "json with notfound as the acknowledgement reference" should {
       val result: Future[Result] = TestController.createSubscription(validSafeId)
         .apply(validRequest.withBody(subscriptionRequest("notfound")))
