@@ -22,9 +22,9 @@ import scala.concurrent.Future
 
 trait Authorisation {
 
-  final val noAuthHeaderError = "required header 'Authorisation' not set in ETMP request"
-  final val noEnvHeaderError = "required header 'Environment' not set in ETMP request"
-  final val combinedError = s"$noAuthHeaderError and $noEnvHeaderError"
+  val noAuthHeaderError: String = "required header 'Authorisation' not set in ETMP request"
+  val noEnvHeaderError: String = "required header 'Environment' not set in ETMP request"
+  val combinedError: String = s"$noAuthHeaderError and $noEnvHeaderError"
 
   def authorised(f: => AuthResponse => Future[Result])(implicit request: Request[Any]): Future[Result] = {
     val environment =request.headers.toMap.get("Environment")
