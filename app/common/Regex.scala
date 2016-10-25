@@ -17,7 +17,9 @@
 package common
 
 object Regex {
-  val tavcReferenceRegex = """^X[A-Z]TAVC000[0-9]{6}$""".r
+  //val tavcReferenceRegex = """^X[A-Z]TAVC000[0-9]{6}$""".r
+  // TEMPORARY REGEX
+  val tavcReferenceRegex = """^[A-Z]{2}[0-9]{13}$""".r
   val processingDateRegex = """^\d\d\d\d-([0-9]{1,2})-([0-9]{1,2})T([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,3})Z$""".r
   val safeIdRegex = """^X[A-Z]000[0-9]{10}$""".r
 }
