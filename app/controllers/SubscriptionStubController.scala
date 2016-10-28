@@ -16,10 +16,8 @@
 
 package controllers
 
-import java.text.SimpleDateFormat
-
 import auth.{Authorisation, Authorised, NotAuthorised}
-import play.api.Logger
+import play.api.{Logger, http}
 import uk.gov.hmrc.play.microservice.controller.BaseController
 import play.api.libs.json._
 import model._
@@ -27,16 +25,9 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
 import common.Validation._
 import common.Generators._
-
 import scala.concurrent.Future
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-
-/**
-  * The controller for the Investment Tax Relief Subscription service REST API dynamic stub
-  *
-  **/
-
+import scala.concurrent.ExecutionContext.Implicits.global
+import common.{JsonResponses, TavcReferenceConstants}
 
 object SubscriptionStubController extends SubscriptionStubController {
 }
@@ -48,12 +39,80 @@ trait SubscriptionStubController extends BaseController with Authorisation {
   def createSubscription(safeId: String): Action[JsValue] = Action.async(BodyParsers.parse.json) { implicit request =>
     authorised {
       case Authorised => {
-        Logger.info(s"[TAVCSubscriptionController][subscribe]")
+        Logger.info(s"[SubscriptionStubController][createSubscription]")
         val subscriptionApplicationBodyJs = request.body.validate[SubscriptionRequest]
         checkApplicationBody(safeId,subscriptionApplicationBodyJs)
       }
       case NotAuthorised(error) => Future.successful(Unauthorized(error))
     }
+  }
+
+  def getSubscription(tavcRefNumber: String):Action[AnyContent] = Action.async { implicit request =>
+    authorised {
+      case Authorised => {
+        Logger.info(s"[SubscriptionStubController][getSubscription]")
+        if (tavcIdValidationCheck(tavcRefNumber)) {
+          getsubscriptionDetailsResponse(tavcRefNumber)
+        }
+        else {
+          Future.successful(BadRequest(response("Your submission contains one or more errors")))
+        }
+      }
+      case NotAuthorised(error) => Future.successful(Unauthorized(error))
+    }
+  }
+
+  //noinspection ScalaStyle
+  private def getsubscriptionDetailsResponse(tavcRefNumber: String): Future[Result] = {
+    tavcRefNumber match {
+      case TavcReferenceConstants.notFoundRef => {
+        Future.successful(NotFound)
+      }
+      case TavcReferenceConstants.badRequestRefOneOrMoreErrors => {
+        Future.successful(BadRequest(response("Your submission contains one or more errors")))
+      }
+      case TavcReferenceConstants.badRequestRefInvalidJsonMessage => {
+        Future.successful(BadRequest(response("Invalid JSON message received")))
+      }
+      case TavcReferenceConstants.badRequesDuplicateSubmissionRef => {
+        Future.successful(BadRequest(response("Error 004")))
+      }
+      case TavcReferenceConstants.serverErrorRef => {
+        Future.successful(InternalServerError(response("Server error")))
+      }
+      case TavcReferenceConstants.serverErrorRegimeRef => {
+        Future.successful(InternalServerError(response("Error 001")))
+      }
+      case TavcReferenceConstants.serverErrorSAPmissingRef => {
+        Future.successful(InternalServerError(response("Error 002")))
+      }
+      case TavcReferenceConstants.serviceUnavailableNotRespondingRef => {
+        Future.successful(ServiceUnavailable(response("Service unavailable")))
+      }
+      case TavcReferenceConstants.serviceUnavailable003Ref => {
+        Future.successful(ServiceUnavailable(response("Error 003")))
+      }
+      case TavcReferenceConstants.`serviceUnavailable999Ref` => {
+        Future.successful(ServiceUnavailable(response("Error 999")))
+      }
+      case _ => getMatchingJsonSubscription(tavcRefNumber)
+    }
+  }
+
+  private def getMatchingJsonSubscription(tavcReferenceId: String): Future[Result] = {
+
+    val json = tavcReferenceId match {
+      case TavcReferenceConstants.subFullRef =>  JsonResponses.getSubFull
+      case TavcReferenceConstants.subNoAddressRef =>  JsonResponses.getSubNoAddress
+      case TavcReferenceConstants.subNoContactDetailsRef =>  JsonResponses.getSubNoContactDetails
+      case TavcReferenceConstants.subMinimumRef =>  JsonResponses.getSubMinimum
+      case TavcReferenceConstants.subMinimumForeignAddressAndDetailsRef => JsonResponses.getSubMinForeignAddressWithDetails
+      case TavcReferenceConstants.subMinimumUkAddressAndDetailsRef => JsonResponses.getSubMinUkAddressWithDetails
+
+      case _ => JsonResponses.getSubFull
+    }
+
+    Future(Status(http.Status.OK)(json))
   }
 
   private def checkApplicationBody(safeId: String, subscriptionApplicationBodyJs: JsResult[SubscriptionRequest]) = {
