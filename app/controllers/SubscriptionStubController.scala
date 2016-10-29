@@ -115,18 +115,22 @@ trait SubscriptionStubController extends BaseController with Authorisation {
     Future(Status(http.Status.OK)(json))
   }
 
+  //noinspection ScalaStyle
   private def checkApplicationBody(safeId: String, subscriptionApplicationBodyJs: JsResult[SubscriptionRequest]) = {
     subscriptionApplicationBodyJs.fold(
       errors => Future.successful(BadRequest("""{"reason" : "Invalid JSON message received"}""")),
       submitRequest => {
         (safeIdValidationCheck(safeId), submitRequest.subscriptionType.correspondenceDetails.contactName.get.name1) match {
           case (true, "notfound") => Future.successful(NotFound)
-          case (true, "duplicate") => Future.successful(BadRequest(response("Error 400")))
+          case (true, "duplicate") => Future.successful(BadRequest(response("Error 004")))
           case (true, "servererror") => Future.successful(InternalServerError(response("Server error")))
           case (true, "serviceunavailable") => Future.successful(ServiceUnavailable(response("Service Unavailable")))
-          case (true, "missingregime") => Future.successful(InternalServerError(response("Error 500")))
-          case (true, "sapnumbermissing") => Future.successful(InternalServerError(response("Error 500")))
-          case (true, "notprocessed") => Future.successful(ServiceUnavailable(response("Error 503")))
+          case (true, "serviceunavailableendpoint") => Future.successful(ServiceUnavailable(response("Error 999")))
+          case (true, "missingregime") => Future.successful(InternalServerError(response("Error 001")))
+          case (true, "sapnumbermissing") => Future.successful(InternalServerError(response("Error 002")))
+          case (true, "notprocessed") => Future.successful(ServiceUnavailable(response("Error 003")))
+          case (true, "oneormoreerrors") => Future.successful(BadRequest(response("Your submission contains one or more errors")))
+          case (true, "malformedJson") => Future.successful(BadRequest("""{"reason" : "Invalid JSON message received"}"""))
           case (true, _) => Future.successful(Created(Json.toJson(SubscriptionResponse(currentDateTime, generateTavcReference))))
           case (false, _) => Future.successful(BadRequest(response("Your submission contains one or more errors")))
         }
