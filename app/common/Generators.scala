@@ -27,11 +27,6 @@ object Generators {
   val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
 
   def generateCapitalLetter: Char = capitalLetterCharRange(Random.nextInt(capitalLetterCharRange.length)).toChar
-
-  //def generateTavcReference: String = s"X${generateCapitalLetter}TAVC000${"%06d" format Random.nextInt(999999)}"
-  // TEMPORARY GENERATOR
-
-  def generateTavcReference: String = s"$generateCapitalLetter$generateCapitalLetter${"%013d" format Random.nextInt(999999999)}"
-
+  def generateTavcReference: String = s"X${generateCapitalLetter}TAVC000${"%06d" format Random.nextInt(999999)}"
   def currentDateTime: String = LocalDateTime.now().format(dateFormatter)
 }

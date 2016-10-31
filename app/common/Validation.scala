@@ -20,4 +20,5 @@ import common.Regex._
 
 object Validation {
   val safeIdValidationCheck: String => Boolean = safeId => safeIdRegex.pattern.matcher(safeId).matches
+  val tavcIdValidationCheck: String => Boolean = tavcId => tavcReferenceRegex.pattern.matcher(tavcId).matches
 }

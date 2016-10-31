@@ -54,10 +54,7 @@ class GeneratorsSpec extends UnitSpec with WithFakeApplication {
 
   "Repeatedly calling the generateTavcReference method" should {
 
-    //"""generate a TAVC reference matching the regex "^X[A-Z]TAVC000[0-9]{6}$" """ when {
-    // TEMPORARY GENERATOR
-    """generate a TAVC reference matching the regex "^[A-Z]{2}[0-9]{13}$" """ when {
-
+    """generate a TAVC reference matching the regex "^X[A-Z]TAVC000[0-9]{6}$" """ when {
       (1 to 50) foreach { i =>
         s"executing call number ${i}" in {
           tavcReferenceRegex.pattern.matcher(generateTavcReference).matches shouldBe true

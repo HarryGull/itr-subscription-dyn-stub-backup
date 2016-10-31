@@ -117,7 +117,7 @@ class SubscriptionStubControllerSpec extends UnitSpec with WithFakeApplication {
         .apply(validRequest.withBody(subscriptionRequest("duplicate")))
 
       "return a bad request response" in {
-        contentAsString(result) shouldBe """{"reason" : "Error 400"}"""
+        contentAsString(result) shouldBe """{"reason" : "Error 004"}"""
       }
 
       "return BAD REQUEST" in {
@@ -140,6 +140,20 @@ class SubscriptionStubControllerSpec extends UnitSpec with WithFakeApplication {
 
     }
 
+    "json with servererrorendpoint as the acknowledgement reference" should {
+      val result: Future[Result] = TestController.createSubscription(validSafeId)
+        .apply(validRequest.withBody(subscriptionRequest("serviceunavailableendpoint")))
+
+      "return a server error response" in {
+        contentAsString(result) shouldBe """{"reason" : "Error 999"}"""
+      }
+
+      "return INTERNAL SERVER ERROR" in {
+        status(result) shouldBe SERVICE_UNAVAILABLE
+      }
+
+    }
+
     "json with serviceunavailable as the acknowledgement reference" should {
       val result: Future[Result] = TestController.createSubscription(validSafeId)
         .apply(validRequest.withBody(subscriptionRequest("serviceunavailable")))
@@ -154,12 +168,38 @@ class SubscriptionStubControllerSpec extends UnitSpec with WithFakeApplication {
 
     }
 
+    "json with oneormoreerrors as the acknowledgement reference" should {
+      val result: Future[Result] = TestController.createSubscription(validSafeId)
+        .apply(validRequest.withBody(subscriptionRequest("oneormoreerrors")))
+
+      "return a service unavailable response" in {
+        contentAsString(result) shouldBe """{"reason" : "Your submission contains one or more errors"}"""
+      }
+
+      "return SERVICE UNAVAILABLE" in {
+        status(result) shouldBe BAD_REQUEST
+      }
+    }
+
+    "json with malformedJson as the acknowledgement reference" should {
+      val result: Future[Result] = TestController.createSubscription(validSafeId)
+        .apply(validRequest.withBody(subscriptionRequest("malformedJson")))
+
+      "return a service unavailable response" in {
+        contentAsString(result) shouldBe """{"reason" : "Invalid JSON message received"}"""
+      }
+
+      "return SERVICE UNAVAILABLE" in {
+        status(result) shouldBe BAD_REQUEST
+      }
+    }
+
     "json with missingregime as the acknowledgement reference" should {
       val result: Future[Result] = TestController.createSubscription(validSafeId)
         .apply(validRequest.withBody(subscriptionRequest("missingregime")))
 
       "return an error 500 response" in {
-        contentAsString(result) shouldBe """{"reason" : "Error 500"}"""
+        contentAsString(result) shouldBe """{"reason" : "Error 001"}"""
       }
 
       "return INTERNAL SERVER ERROR" in {
@@ -173,7 +213,7 @@ class SubscriptionStubControllerSpec extends UnitSpec with WithFakeApplication {
         .apply(validRequest.withBody(subscriptionRequest("sapnumbermissing")))
 
       "return an error 500 response" in {
-        contentAsString(result) shouldBe """{"reason" : "Error 500"}"""
+        contentAsString(result) shouldBe """{"reason" : "Error 002"}"""
       }
 
       "return INTERNAL SERVER ERROR" in {
@@ -187,7 +227,7 @@ class SubscriptionStubControllerSpec extends UnitSpec with WithFakeApplication {
         .apply(validRequest.withBody(subscriptionRequest("notprocessed")))
 
       "return an error 503 response" in {
-        contentAsString(result) shouldBe """{"reason" : "Error 503"}"""
+        contentAsString(result) shouldBe """{"reason" : "Error 003"}"""
       }
 
       "return SERVICE UNAVAILABLE" in {
