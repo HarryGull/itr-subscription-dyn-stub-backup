@@ -92,13 +92,14 @@ trait SubscriptionStubController extends BaseController with Authorisation {
       case TavcReferenceConstants.serviceUnavailable003Ref => {
         Future.successful(ServiceUnavailable(response("Error 003")))
       }
-      case TavcReferenceConstants.`serviceUnavailable999Ref` => {
+      case TavcReferenceConstants.serviceUnavailable999Ref => {
         Future.successful(ServiceUnavailable(response("Error 999")))
       }
       case _ => getMatchingJsonSubscription(tavcRefNumber)
     }
   }
 
+  //noinspection ScalaStyle
   private def getMatchingJsonSubscription(tavcReferenceId: String): Future[Result] = {
 
     val json = tavcReferenceId match {
@@ -108,6 +109,10 @@ trait SubscriptionStubController extends BaseController with Authorisation {
       case TavcReferenceConstants.subMinimumRef =>  JsonResponses.getSubMinimum
       case TavcReferenceConstants.subMinimumForeignAddressAndDetailsRef => JsonResponses.getSubMinForeignAddressWithDetails
       case TavcReferenceConstants.subMinimumUkAddressAndDetailsRef => JsonResponses.getSubMinUkAddressWithDetails
+      case TavcReferenceConstants.subSubmissionErrorRef => JsonResponses.getSubmissionErrorSub
+      case TavcReferenceConstants.subResourceNotFoundRef => JsonResponses.getResourceNotFoundSub
+      case TavcReferenceConstants.subServerErrorRef => JsonResponses.getServerErrorSub
+      case TavcReferenceConstants.subServiceUnavailableRef => JsonResponses.getServiceUnavailableSub
 
       case _ => JsonResponses.getSubFull
     }

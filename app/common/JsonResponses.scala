@@ -21,12 +21,13 @@ import play.api.libs.json.Json
 object JsonResponses {
 
   //XZTAVC000187600
+  //maximumRegResponse
   val getSubFull = Json.parse(
     """
       |{
       |    "processingDate": "2001-12-17T09:30:47Z",
       |    "subscriptionType": {
-      |        "safeId": "XA0000000012345",
+      |        "safeId": "XA0004567890123",
       |        "correspondenceDetails": {
       |            "contactName": {
       |                "name1": "John",
@@ -53,12 +54,13 @@ object JsonResponses {
   )
 
   //XNTAVC000257565
+  //minimumRegResponse
   val getSubNoAddress = Json.parse(
     """
       |{
       |	"processingDate": "2001-12-17T09:30:47Z",
       |	"subscriptionType": {
-      |		"safeId": "XA0000000012345",
+      |		"safeId": "XA0001234567890",
       |		"correspondenceDetails": {
       |			"contactName": {
       |				"name1": "John",
@@ -77,12 +79,13 @@ object JsonResponses {
   )
 
   //XWTAVC000435628
+  //minimumRegResponse
   val getSubNoContactDetails = Json.parse(
     """
       |{
       |	"processingDate": "2001-12-17T09:30:47Z",
       |	"subscriptionType": {
-      |		"safeId": "XA0000000012345",
+      |		"safeId": "XA0001234567890",
       |		"correspondenceDetails": {
       |			"contactName": {
       |				"name1": "John",
@@ -103,12 +106,13 @@ object JsonResponses {
   )
 
   //XBTAVC000739704
+  //maxContactDetailsRegResponse
   val getSubMinForeignAddressWithDetails = Json.parse(
     """
      {
       |	"processingDate": "2001-12-17T09:30:47Z",
       |	"subscriptionType": {
-      |		"safeId": "XA0000000012345",
+      |		"safeId": "XA0003456789012",
       |		"correspondenceDetails": {
       |			"contactName": {
       |				"name1": "J"
@@ -129,13 +133,14 @@ object JsonResponses {
   )
 
   //XATAVC000421817
+  //maxAddressRegResponse
   val getSubMinUkAddressWithDetails = Json.parse(
 
     """
       |{
       |	"processingDate": "2001-12-17T09:30:47Z",
       |	"subscriptionType": {
-      |		"safeId": "XA0000000012345",
+      |		"safeId": "XA0002345678901",
       |		"correspondenceDetails": {
       |			"contactName": {
       |				"name1": "J"
@@ -154,16 +159,117 @@ object JsonResponses {
   )
 
   //XWTAVC000616234
+  //minimumRegResponse
   val getSubMinimum = Json.parse(
     """
        {
       |	"processingDate": "2001-12-17T09:30:47Z",
       |	"subscriptionType": {
-      |		"safeId": "XA0000000012345",
+      |		"safeId": "XA0001234567890",
       |		"correspondenceDetails": {
       |			"contactName": {
       |				"name1": "J"
       |
+      |			}
+      |		}
+      |	}
+      |}
+    """.stripMargin
+  )
+
+  //XZTAVC000123456
+  //submissionErrorResponse
+  val getSubmissionErrorSub = Json.parse(
+    """
+      |{
+      |	"processingDate": "2001-12-17T09:30:47Z",
+      |	"subscriptionType": {
+      |		"safeId": "XA0005678901234",
+      |		"correspondenceDetails": {
+      |			"contactName": {
+      |				"name1": "J"
+      |			},
+      |			"contactDetails": {},
+      |			"contactAddress": {
+      |				"addressLine1": "38 UpperMarshall Street",
+      |				"addressLine2": "Post Box Aptms",
+      |				"countryCode": "GB",
+      |				"postalCode": "BB1 6AA"
+      |			}
+      |		}
+      |	}
+      |}
+    """.stripMargin
+  )
+
+  //XZTAVC000234561
+  //resourceNotFoundResponse
+  val getResourceNotFoundSub = Json.parse(
+    """
+      |{
+      |	"processingDate": "2001-12-17T09:30:47Z",
+      |	"subscriptionType": {
+      |		"safeId": "XA0006789012345",
+      |		"correspondenceDetails": {
+      |			"contactName": {
+      |				"name1": "J"
+      |			},
+      |			"contactDetails": {},
+      |			"contactAddress": {
+      |				"addressLine1": "38 UpperMarshall Street",
+      |				"addressLine2": "Post Box Aptms",
+      |				"countryCode": "GB",
+      |				"postalCode": "BB1 6AA"
+      |			}
+      |		}
+      |	}
+      |}
+    """.stripMargin
+  )
+
+  //XZTAVC000345612
+  //serverErrorResponse
+  val getServerErrorSub = Json.parse(
+    """
+      |{
+      |	"processingDate": "2001-12-17T09:30:47Z",
+      |	"subscriptionType": {
+      |		"safeId": "XA0007890123456",
+      |		"correspondenceDetails": {
+      |			"contactName": {
+      |				"name1": "J"
+      |			},
+      |			"contactDetails": {},
+      |			"contactAddress": {
+      |				"addressLine1": "38 UpperMarshall Street",
+      |				"addressLine2": "Post Box Aptms",
+      |				"countryCode": "GB",
+      |				"postalCode": "BB1 6AA"
+      |			}
+      |		}
+      |	}
+      |}
+    """.stripMargin
+  )
+
+  //XZTAVC000456123
+  //serviceUnavailableResponse
+  val getServiceUnavailableSub = Json.parse(
+    """
+      |{
+      |	"processingDate": "2001-12-17T09:30:47Z",
+      |	"subscriptionType": {
+      |		"safeId": "XA0008901234567",
+      |		"correspondenceDetails": {
+      |			"contactName": {
+      |				"name1": "J"
+      |			},
+      |			"contactDetails": {},
+      |			"contactAddress": {
+      |				"addressLine1": "38 UpperMarshall Street",
+      |				"addressLine2": "Post Box Aptms",
+      |				"countryCode": "GB",
+      |				"postalCode": "BB1 6AA"
       |			}
       |		}
       |	}

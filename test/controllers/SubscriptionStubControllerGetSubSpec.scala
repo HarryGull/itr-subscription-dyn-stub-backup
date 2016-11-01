@@ -160,6 +160,86 @@ class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplica
       }
     }
 
+    "SubscriptionStubController.getSubscription with an authorised request and a valid tavc Id" when {
+      "tavc ID parameter XZTAVC000123456 is passed" should {
+        val result = TestController.getSubscription(TavcReferenceConstants.subSubmissionErrorRef).apply(validRequest)
+        "return the expected Json as the minimum allowed by the schema when UK address and details present" which {
+          val json = Json.parse(contentAsString(result))
+
+          val postCode = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactAddress" \ "postalCode").validate[String].get
+          "has the expected postcode" in {
+            postCode shouldBe "BB1 6AA"
+          }
+          "Json should be as expected" in {
+            json shouldEqual JsonResponses.getSubmissionErrorSub
+          }
+        }
+        "return OK" in {
+          status(result) shouldBe OK
+        }
+      }
+    }
+
+    "SubscriptionStubController.getSubscription with an authorised request and a valid tavc Id" when {
+      "tavc ID parameter XZTAVC000234561 is passed" should {
+        val result = TestController.getSubscription(TavcReferenceConstants.subResourceNotFoundRef).apply(validRequest)
+        "return the expected Json as the minimum allowed by the schema when UK address and details present" which {
+          val json = Json.parse(contentAsString(result))
+
+          val postCode = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactAddress" \ "postalCode").validate[String].get
+          "has the expected postcode" in {
+            postCode shouldBe "BB1 6AA"
+          }
+          "Json should be as expected" in {
+            json shouldEqual JsonResponses.getResourceNotFoundSub
+          }
+        }
+        "return OK" in {
+          status(result) shouldBe OK
+        }
+      }
+    }
+
+    "SubscriptionStubController.getSubscription with an authorised request and a valid tavc Id" when {
+      "tavc ID parameter XZTAVC000345612 is passed" should {
+        val result = TestController.getSubscription(TavcReferenceConstants.subServerErrorRef).apply(validRequest)
+        "return the expected Json as the minimum allowed by the schema when UK address and details present" which {
+          val json = Json.parse(contentAsString(result))
+
+          val postCode = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactAddress" \ "postalCode").validate[String].get
+          "has the expected postcode" in {
+            postCode shouldBe "BB1 6AA"
+          }
+          "Json should be as expected" in {
+            json shouldEqual JsonResponses.getServerErrorSub
+          }
+        }
+        "return OK" in {
+          status(result) shouldBe OK
+        }
+      }
+    }
+
+    "SubscriptionStubController.getSubscription with an authorised request and a valid tavc Id" when {
+      "tavc ID parameter XZTAVC000456123 is passed" should {
+        val result = TestController.getSubscription(TavcReferenceConstants.subServiceUnavailableRef).apply(validRequest)
+        "return the expected Json as the minimum allowed by the schema when UK address and details present" which {
+          val json = Json.parse(contentAsString(result))
+
+          val postCode = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactAddress" \ "postalCode").validate[String].get
+          "has the expected postcode" in {
+            postCode shouldBe "BB1 6AA"
+          }
+          "Json should be as expected" in {
+            json shouldEqual JsonResponses.getServiceUnavailableSub
+          }
+        }
+        "return OK" in {
+          status(result) shouldBe OK
+        }
+      }
+    }
+
     "invalid json is sent for XVTAVC000280665" should {
       val result = TestController.getSubscription(TavcReferenceConstants.notFoundRef).apply(validRequest)
       "return an Nolid json response" in {
