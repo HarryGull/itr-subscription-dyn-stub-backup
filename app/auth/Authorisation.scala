@@ -24,19 +24,24 @@ trait Authorisation {
 
   val noAuthHeaderError: String = "required header 'Authorisation' not set in ETMP request"
   val noEnvHeaderError: String = "required header 'Environment' not set in ETMP request"
+  val badEnvHeaderError: String = "required header 'Environment' is invalid"
   val combinedError: String = s"$noAuthHeaderError and $noEnvHeaderError"
+  val validEnvironments = Seq("isit","clone","live")
 
   def authorised(f: => AuthResponse => Future[Result])(implicit request: Request[Any]): Future[Result] = {
     val environment =request.headers.toMap.get("Environment")
     val token = request.headers.toMap.get("Authorization")
     play.Logger.info(s"""Request headers: environment = ${environment.getOrElse("<NOT SET>")}, authorisation=" + ${token.getOrElse("<NOT SET>")})""")
     (environment, token) match {
-      case (Some(_), Some(_)) => f(Authorised)
-      case (Some(_), None) => f(new NotAuthorised(noAuthHeaderError))
-      case (None, Some(_)) => f(new NotAuthorised(noEnvHeaderError))
+      case (Some(e), Some(t)) => {
+        validEnvironments.find(_.equals(e.last)) match {
+          case Some(_) => f(Authorised)
+          case None => f(new NotAuthorised(badEnvHeaderError))
+        }
+      }
+      case (Some(e), None) => f(new NotAuthorised(noAuthHeaderError))
+      case (None, Some(t)) => f(new NotAuthorised(noEnvHeaderError))
       case (None, None) => f(new NotAuthorised(combinedError))
     }
   }
 }
-
-

@@ -38,4 +38,8 @@ object TavcReferenceConstants {
   val subMinimumRef = "XWTAVC000616234"
   val subMinimumForeignAddressAndDetailsRef = "XBTAVC000739704"
   val subMinimumUkAddressAndDetailsRef = "XATAVC000421817"
+  val subSubmissionErrorRef = "XZTAVC000123456"
+  val subResourceNotFoundRef = "XZTAVC000234561"
+  val subServerErrorRef = "XZTAVC000345612"
+  val subServiceUnavailableRef = "XZTAVC000456123"
 }

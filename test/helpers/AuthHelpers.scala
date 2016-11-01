@@ -21,8 +21,10 @@ import play.api.test.FakeRequest
 object AuthHelpers {
 
   val authHeader = "Authorization" -> "Bearer: abcdef12345678901234567890"
-  val envHeader = "Environment" -> "IST0"
+  val envHeader = "Environment" -> "isit"
+  val badEnvHeader = "Environment" -> "test"
   val validRequest = FakeRequest().withHeaders(authHeader,envHeader)
+  val badEnvRequest = FakeRequest().withHeaders(authHeader,badEnvHeader)
   val noEnvRequest = FakeRequest().withHeaders(authHeader)
   val noAuthRequest = FakeRequest().withHeaders(envHeader)
   val emptyRequest = FakeRequest()

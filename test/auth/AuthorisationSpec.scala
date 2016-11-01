@@ -46,6 +46,19 @@ class AuthorisationSpec extends UnitSpec {
 
     }
 
+    "If the request contains an invalid environment in the header carrier" should {
+      val result = authorised(badEnvRequest)
+
+      "Return NotAuthorised" in {
+        status(result) shouldBe FORBIDDEN
+      }
+
+      "Return the badEnvHeaderError to be used by the controller" in {
+        contentAsString(result) shouldBe TestAuthorisation.badEnvHeaderError
+      }
+
+    }
+
     "If the request contains no bearer token in the header carrier" should {
       val result = authorised(noAuthRequest)
 
