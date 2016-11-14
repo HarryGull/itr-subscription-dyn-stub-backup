@@ -136,7 +136,11 @@ trait SubscriptionStubController extends BaseController with Authorisation {
           case (true, "notprocessed") => Future.successful(ServiceUnavailable(response("Error 003")))
           case (true, "oneormoreerrors") => Future.successful(BadRequest(response("Your submission contains one or more errors")))
           case (true, "malformedJson") => Future.successful(BadRequest("""{"reason" : "Invalid JSON message received"}"""))
-          case (true, _) => Future.successful(Created(Json.toJson(SubscriptionResponse(currentDateTime, generateTavcReference))))
+          case (true, _) => {
+            val TAVCRef = generateTavcReference
+            Logger.info(s"[SubscriptionStubController][createSubscription] response is: ${Json.toJson(SubscriptionResponse(currentDateTime, TAVCRef)).toString()}")
+            Future.successful(Created(Json.toJson(SubscriptionResponse(currentDateTime, TAVCRef))))
+          }
           case (false, _) => Future.successful(BadRequest(response("Your submission contains one or more errors")))
         }
       }
