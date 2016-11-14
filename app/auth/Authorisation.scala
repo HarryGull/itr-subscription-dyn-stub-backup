@@ -31,7 +31,7 @@ trait Authorisation {
   def authorised(f: => AuthResponse => Future[Result])(implicit request: Request[Any]): Future[Result] = {
     val environment =request.headers.toMap.get("Environment")
     val token = request.headers.toMap.get("Authorization")
-    play.Logger.info(s"""Request headers: environment = ${environment.getOrElse("<NOT SET>")}, authorisation=" + ${token.getOrElse("<NOT SET>")})""")
+    play.Logger.info(s"""Request headers: environment = ${environment.getOrElse("<NOT SET>")}, authorisation= ${token.getOrElse("<NOT SET>")}""")
     (environment, token) match {
       case (Some(e), Some(t)) => {
         validEnvironments.find(_.equals(e.last)) match {
