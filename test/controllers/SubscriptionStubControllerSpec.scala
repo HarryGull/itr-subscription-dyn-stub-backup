@@ -78,8 +78,8 @@ class SubscriptionStubControllerSpec extends UnitSpec with WithFakeApplication {
         }
       }
 
-      "return CREATED" in {
-        status(result) shouldBe CREATED
+      "return Ok" in {
+        status(result) shouldBe OK
       }
 
     }
