@@ -30,20 +30,20 @@ object JsonResponses {
       |        "safeId": "XA0004567890123",
       |        "correspondenceDetails": {
       |            "contactName": {
-      |                "name1": "John",
-      |                "name2": "Brown"
+      |                "name1": "Sub",
+      |                "name2": "Full"
       |            },
       |            "contactDetails": {
       |                "phoneNumber": "0000 10000",
       |                "mobileNumber": "0000 2000",
       |                "faxNumber": "0000 30000",
-      |                "emailAddress": "john.smith@noplace.atall.com"
+      |                "emailAddress": "test@test.com"
       |            },
       |            "contactAddress": {
-      |                "addressLine1": "12 some street",
-      |                "addressLine2": "some line 2",
-      |                "addressLine3": "some line 3",
-      |                "addressLine4": "some line 4",
+      |                "addressLine1": "Line 1",
+      |                "addressLine2": "Line 2",
+      |                "addressLine3": "Line 3",
+      |                "addressLine4": "Line 4",
       |                "countryCode": "GB",
       |                "postalCode": "AA1 1AA"
       |            }
@@ -63,8 +63,8 @@ object JsonResponses {
       |		"safeId": "XA0001234567890",
       |		"correspondenceDetails": {
       |			"contactName": {
-      |				"name1": "John",
-      |				"name2": "Green"
+      |				"name1": "No",
+      |				"name2": "Address"
       |			},
       |			"contactDetails": {
       |				"phoneNumber": "0000 10000",
@@ -88,14 +88,14 @@ object JsonResponses {
       |		"safeId": "XA0001234567890",
       |		"correspondenceDetails": {
       |			"contactName": {
-      |				"name1": "John",
-      |				"name2": "Black"
+      |				"name1": "No",
+      |				"name2": "Contact"
       |			},
       |			"contactAddress": {
-      |				"addressLine1": "12 some street",
-      |				"addressLine2": "some line 2",
-      |				"addressLine3": "some line 3",
-      |				"addressLine4": "some line 4",
+      |				"addressLine1": "Line 1",
+      |				"addressLine2": "Line 2",
+      |				"addressLine3": "Line 3",
+      |				"addressLine4": "Line 4",
       |				"countryCode": "GB",
       |				"postalCode": "AA1 1AA"
       |			}
@@ -121,8 +121,8 @@ object JsonResponses {
       |
       |			},
       |			"contactAddress": {
-      |				"addressLine1": "12 some street",
-      |				"addressLine2": "some line 2",
+      |				"addressLine1": "Line 1",
+      |				"addressLine2": "Line 2",
       |				"countryCode": "GG"
       |
       |			}
@@ -147,10 +147,10 @@ object JsonResponses {
       |			},
       |			"contactDetails": {},
       |			"contactAddress": {
-      |				"addressLine1": "38 UpperMarshall Street",
-      |				"addressLine2": "Post Box Aptms",
+      |				"addressLine1": "Line 1",
+      |				"addressLine2": "Line 2",
       |				"countryCode": "GB",
-      |				"postalCode": "BB1 6AA"
+      |				"postalCode": "AA1 1AA"
       |			}
       |		}
       |	}
@@ -191,10 +191,10 @@ object JsonResponses {
       |			},
       |			"contactDetails": {},
       |			"contactAddress": {
-      |				"addressLine1": "38 UpperMarshall Street",
-      |				"addressLine2": "Post Box Aptms",
+      |				"addressLine1": "Line 1",
+      |				"addressLine2": "Line 2",
       |				"countryCode": "GB",
-      |				"postalCode": "BB1 6AA"
+      |				"postalCode": "AA1 1AA"
       |			}
       |		}
       |	}
@@ -216,10 +216,10 @@ object JsonResponses {
       |			},
       |			"contactDetails": {},
       |			"contactAddress": {
-      |				"addressLine1": "38 UpperMarshall Street",
-      |				"addressLine2": "Post Box Aptms",
+      |				"addressLine1": "Line 1",
+      |				"addressLine2": "Line 2",
       |				"countryCode": "GB",
-      |				"postalCode": "BB1 6AA"
+      |				"postalCode": "AA1 1AA"
       |			}
       |		}
       |	}
@@ -241,10 +241,10 @@ object JsonResponses {
       |			},
       |			"contactDetails": {},
       |			"contactAddress": {
-      |				"addressLine1": "38 UpperMarshall Street",
-      |				"addressLine2": "Post Box Aptms",
+      |				"addressLine1": "Line 1",
+      |				"addressLine2": "Line 2",
       |				"countryCode": "GB",
-      |				"postalCode": "BB1 6AA"
+      |				"postalCode": "AA1 1AA"
       |			}
       |		}
       |	}
@@ -266,10 +266,10 @@ object JsonResponses {
       |			},
       |			"contactDetails": {},
       |			"contactAddress": {
-      |				"addressLine1": "38 UpperMarshall Street",
-      |				"addressLine2": "Post Box Aptms",
+      |				"addressLine1": "Line 1",
+      |				"addressLine2": "Line 2",
       |				"countryCode": "GB",
-      |				"postalCode": "BB1 6AA"
+      |				"postalCode": "AA1 1AA"
       |			}
       |		}
       |	}

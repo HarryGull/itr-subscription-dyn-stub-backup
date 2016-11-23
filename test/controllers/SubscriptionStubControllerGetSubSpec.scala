@@ -34,7 +34,7 @@ class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplica
         val json = Json.parse(contentAsString(result))
         val surname = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactName" \ "name2").validate[String].get
         "has the expected surname" in {
-          surname shouldBe "Brown"
+          surname shouldBe "Full"
         }
         "Json should be as expected" in {
           json shouldEqual JsonResponses.getSubFull
@@ -52,7 +52,7 @@ class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplica
           val json = Json.parse(contentAsString(result))
           val surname = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactName" \ "name2").validate[String].get
           "has the expected surname" in {
-            surname shouldBe "Brown"
+            surname shouldBe "Full"
           }
           "Json should be as expected" in {
             json shouldEqual JsonResponses.getSubFull
@@ -71,7 +71,7 @@ class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplica
           val json = Json.parse(contentAsString(result))
           val surname = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactName" \ "name2").validate[String].get
           "has the expected surname" in {
-            surname shouldBe "Green"
+            surname shouldBe "Address"
           }
           "Json should be as expected" in {
             json shouldEqual JsonResponses.getSubNoAddress
@@ -90,7 +90,7 @@ class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplica
           val json = Json.parse(contentAsString(result))
           val surname = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactName" \ "name2").validate[String].get
           "has the expected surname" in {
-            surname shouldBe "Black"
+            surname shouldBe "Contact"
           }
           "Json should be as expected" in {
             json shouldEqual JsonResponses.getSubNoContactDetails
@@ -148,7 +148,7 @@ class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplica
 
           val postCode = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactAddress" \ "postalCode").validate[String].get
           "has the expected postcode" in {
-            postCode shouldBe "BB1 6AA"
+            postCode shouldBe "AA1 1AA"
           }
           "Json should be as expected" in {
             json shouldEqual JsonResponses.getSubMinUkAddressWithDetails
@@ -168,7 +168,7 @@ class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplica
 
           val postCode = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactAddress" \ "postalCode").validate[String].get
           "has the expected postcode" in {
-            postCode shouldBe "BB1 6AA"
+            postCode shouldBe "AA1 1AA"
           }
           "Json should be as expected" in {
             json shouldEqual JsonResponses.getSubmissionErrorSub
@@ -188,7 +188,7 @@ class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplica
 
           val postCode = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactAddress" \ "postalCode").validate[String].get
           "has the expected postcode" in {
-            postCode shouldBe "BB1 6AA"
+            postCode shouldBe "AA1 1AA"
           }
           "Json should be as expected" in {
             json shouldEqual JsonResponses.getResourceNotFoundSub
@@ -208,7 +208,7 @@ class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplica
 
           val postCode = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactAddress" \ "postalCode").validate[String].get
           "has the expected postcode" in {
-            postCode shouldBe "BB1 6AA"
+            postCode shouldBe "AA1 1AA"
           }
           "Json should be as expected" in {
             json shouldEqual JsonResponses.getServerErrorSub
@@ -228,7 +228,7 @@ class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplica
 
           val postCode = (json \ "subscriptionType" \ "correspondenceDetails" \ "contactAddress" \ "postalCode").validate[String].get
           "has the expected postcode" in {
-            postCode shouldBe "BB1 6AA"
+            postCode shouldBe "AA1 1AA"
           }
           "Json should be as expected" in {
             json shouldEqual JsonResponses.getServiceUnavailableSub
