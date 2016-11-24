@@ -30,9 +30,9 @@ object SubmissionHelpers {
           "name2": "Test"
         },
         "contactDetails": {
-          "phoneNumber": "000000000000",
-          "mobileNumber": "000000000000",
-          "faxNumber": "000000000000",
+          "phoneNumber": "000000000001",
+          "mobileNumber": "000000000002",
+          "faxNumber": "000000000003",
           "emailAddress": "test@test.com"
         },
         "contactAddress": {
