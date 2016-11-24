@@ -42,7 +42,7 @@ sm --start TAVC_ALL -f
 
 Kill the service ```sm --stop ITR_SUBM_DYNAMIC_STUB``` in service Manager and run:
 ```
-sbt 'run 9639' 
+sbt 'run 9640' 
 ```
 *This service is part of the investment tax relief service and has dependent services.*
 *For a full list of the dependent microservices that comprise this service please see the readme for our* [Submission Frontend Service](https://github.com/hmrc/investment-tax-relief-submission-frontend/)
