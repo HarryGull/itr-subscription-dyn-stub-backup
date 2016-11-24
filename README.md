@@ -40,7 +40,7 @@ sm --start TAVC_ALL -f
 ##To run the application locally execute the following:
 
 
-Kill the service ```sm --stop ITR_SUBM_DYNAMIC_STUB``` in service Manager and run:
+Kill the service ```sm --stop ITR_SUBSC_DYNAMIC_STUB``` in service Manager and run:
 ```
 sbt 'run 9640' 
 ```
