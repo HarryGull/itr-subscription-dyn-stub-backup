@@ -27,21 +27,21 @@ object SubmissionHelpers {
       "correspondenceDetails": {
         "contactName": {
           "name1": "$reference",
-          "name2": "Smith"
+          "name2": "Test"
         },
         "contactDetails": {
-          "phoneNumber": "01214567896",
-          "mobileNumber": "07999056789",
-          "faxNumber": "01216754321",
-          "emailAddress": "john.smith@gmail.com"
+          "phoneNumber": "000000000001",
+          "mobileNumber": "000000000002",
+          "faxNumber": "000000000003",
+          "emailAddress": "test@test.com"
         },
         "contactAddress": {
-          "addressLine1": "38 UpperMarshall Street",
-          "addressLine2": "Post Box Aptms",
-          "addressLine3": "Birmingham",
-          "addressLine4": "WarwickShire",
+          "addressLine1": "Line 1",
+          "addressLine2": "Line 2",
+          "addressLine3": "Line 3",
+          "addressLine4": "Line 4",
           "countryCode": "GB",
-          "postalCode": "B1 1LA"
+          "postalCode": "AA1 1AA"
         }
       }
     }
