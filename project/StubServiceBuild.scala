@@ -22,8 +22,8 @@ private object AppDependencies {
 
   private val microserviceBootstrapVersion = "4.4.0"
   private val playHealthVersion = "1.1.0"
-  private val playConfigVersion = "2.0.1"
-  private val hmrcTestVersion = "1.6.0"
+  private val playConfigVersion = "2.1.0"
+  private val hmrcTestVersion = "1.9.0"
   
   val compile = Seq(
     ws,
