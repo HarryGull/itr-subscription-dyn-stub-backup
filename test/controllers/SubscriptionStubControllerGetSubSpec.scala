@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,13 @@
 package controllers
 
 import common.{JsonResponses, TavcReferenceConstants}
+import org.scalatestplus.play.OneAppPerSuite
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import helpers.AuthHelpers._
 import play.api.libs.json.Json
 import play.api.test.Helpers._
 
-class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplication {
+class SubscriptionStubControllerGetSubSpec extends UnitSpec with OneAppPerSuite {
 
   object TestController extends SubscriptionStubController {
   }

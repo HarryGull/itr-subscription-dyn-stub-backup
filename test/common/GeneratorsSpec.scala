@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 HM Revenue & Customs
+ * Copyright 2017 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,11 +32,12 @@
 
 package common
 
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import org.scalatestplus.play.OneAppPerSuite
+import uk.gov.hmrc.play.test.UnitSpec
 import common.Generators._
 import common.Regex._
 
-class GeneratorsSpec extends UnitSpec with WithFakeApplication {
+class GeneratorsSpec extends UnitSpec with OneAppPerSuite {
 
   "Repeatedly calling the generateCapitalLetter method" should {
 
