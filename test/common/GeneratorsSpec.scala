@@ -32,11 +32,12 @@
 
 package common
 
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import org.scalatestplus.play.OneAppPerSuite
+import uk.gov.hmrc.play.test.UnitSpec
 import common.Generators._
 import common.Regex._
 
-class GeneratorsSpec extends UnitSpec with WithFakeApplication {
+class GeneratorsSpec extends UnitSpec with OneAppPerSuite {
 
   "Repeatedly calling the generateCapitalLetter method" should {
 

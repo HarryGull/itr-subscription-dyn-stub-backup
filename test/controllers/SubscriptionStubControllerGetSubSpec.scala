@@ -17,12 +17,13 @@
 package controllers
 
 import common.{JsonResponses, TavcReferenceConstants}
+import org.scalatestplus.play.OneAppPerSuite
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import helpers.AuthHelpers._
 import play.api.libs.json.Json
 import play.api.test.Helpers._
 
-class SubscriptionStubControllerGetSubSpec extends UnitSpec with WithFakeApplication {
+class SubscriptionStubControllerGetSubSpec extends UnitSpec with OneAppPerSuite {
 
   object TestController extends SubscriptionStubController {
   }

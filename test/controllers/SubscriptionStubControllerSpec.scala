@@ -32,6 +32,7 @@
 
 package controllers
 
+import org.scalatestplus.play.OneAppPerSuite
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import helpers.AuthHelpers._
 import helpers.SubmissionHelpers._
@@ -41,7 +42,7 @@ import play.api.mvc.Result
 import scala.concurrent.Future
 import common.Regex._
 
-class SubscriptionStubControllerSpec extends UnitSpec with WithFakeApplication {
+class SubscriptionStubControllerSpec extends UnitSpec with OneAppPerSuite {
   object TestController extends SubscriptionStubController {
   }
 
