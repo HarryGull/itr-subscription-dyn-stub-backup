@@ -37,9 +37,7 @@ private object AppDependencies {
     "uk.gov.hmrc" %% "logback-json-logger" % logbackJsonLoggerVersion,
     "uk.gov.hmrc" %% "play-reactivemongo" % "5.1.0",
     "uk.gov.hmrc" %% "play-url-binders" % playUrlBindersVersion,
-    "uk.gov.hmrc" %% "domain" % domainVersion,
-    "org.mockito" % "mockito-all" % mockitoAll,
-    "org.scalatestplus.play" %% "scalatestplus-play" % scalaTestPlus
+    "uk.gov.hmrc" %% "domain" % domainVersion
   )
 
   trait TestDependencies {
