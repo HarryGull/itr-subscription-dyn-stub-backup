@@ -25,6 +25,7 @@ private object AppDependencies {
   private val playUrlBindersVersion = "2.0.0"
   private val mockitoAll = "1.9.5"
   private val scalaTestPlus = "1.5.1"
+  private val pegDownVersion = "1.6.0"
 
 
   
@@ -49,14 +50,29 @@ private object AppDependencies {
       override lazy val test = Seq(
         "uk.gov.hmrc" %% "hmrctest" % hmrcTestVersion % scope,
         "org.scalatest" %% "scalatest" % scalaTestVersion % scope,
-        "org.pegdown" % "pegdown" % "1.5.0" % scope,
+        "org.pegdown" % "pegdown" % pegDownVersion % scope,
         "org.mockito" % "mockito-all" % mockitoAll,
         "org.scalatestplus.play" %% "scalatestplus-play" % scalaTestPlus
       )
     }.test
   }
 
-  def apply() = compile ++ Test()
+  object IntegrationTest {
+    def apply() = new TestDependencies {
+
+      override lazy val scope: String = "it"
+
+      override lazy val test = Seq(
+        "uk.gov.hmrc" %% "hmrctest" % hmrcTestVersion % scope,
+        "org.scalatest" %% "scalatest" % scalaTestVersion % scope,
+        "org.pegdown" % "pegdown" % pegDownVersion % scope,
+        "com.typesafe.play" %% "play-test" % PlayVersion.current % scope
+      )
+    }.test
+  }
+
+  def apply() = compile ++ Test() ++ IntegrationTest()
 }
+
 
 
