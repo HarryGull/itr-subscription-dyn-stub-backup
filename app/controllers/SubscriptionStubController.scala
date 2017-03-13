@@ -139,6 +139,7 @@ trait SubscriptionStubController extends BaseController with Authorisation {
           case (true, _) => {
             val TAVCRef = generateTavcReference
             Logger.info(s"[SubscriptionStubController][createSubscription] response is: ${Json.toJson(SubscriptionResponse(currentDateTime, TAVCRef)).toString()}")
+            Logger.info(s"Json Subscription is: ${Json.toJson(submitRequest)}")
             Future.successful(Ok(Json.toJson(SubscriptionResponse(currentDateTime, TAVCRef))))
           }
           case (false, _) => Future.successful(BadRequest(response("Your submission contains one or more errors")))
