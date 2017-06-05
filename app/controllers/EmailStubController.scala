@@ -18,11 +18,13 @@ package controllers
 
 
 import auth.{Authorisation, Authorised, NotAuthorised}
+import common.EmailConstants
 import play.api.Logger
 import uk.gov.hmrc.play.microservice.controller.BaseController
 import model._
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc._
+
 import scala.concurrent.Future
 import play.api.libs.json.{JsError, Json}
 object EmailStubController extends EmailStubController {
@@ -53,27 +55,30 @@ trait EmailStubController extends BaseController with Authorisation {
   private def postEmailVerificationResponse(verificationModel: EmailVerificationRequestModel): Future[Result] = {
     verificationModel.email.toLowerCase() match {
       case email if email.contains("notokenfound") =>
-        Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = "EMAIL_NOT_FOUND_OR_NOT_VERIFIED", message = "Token not found or expired."))))
+        Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeNotVerfified,
+          message = EmailConstants.messageNotVerfified))))
       case email if email.contains("notfound") =>
-        Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = "NOT_FOUND",
-          message = "URI not found", details = Some(Map("requestedUrl" -> "/email-verification/non-existent-url"))))))
+        Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeNotFound,
+          message = EmailConstants.messageNotFound,
+          details = Some(Map(EmailConstants.detailNotFoundKey -> EmailConstants.detailNotFoundMessage))))))
       case email if email.contains("badrequest") =>
-        Future.successful(BadRequest(Json.toJson(VerificationErrorResponseModel(code = "VALIDATION_ERROR",
-          message = "Payload validation failed", details = Some(Map("obj.email" -> "error.path.missing"))))))
+        Future.successful(BadRequest(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeValidationError,
+          message = EmailConstants.messageValidationError,
+          details = Some(Map(EmailConstants.detailValidationErrorKey -> EmailConstants.detailValidationErrorMessage))))))
       case email if email.contains("alreadyverified") =>
-        Future.successful(Conflict(Json.toJson(VerificationErrorResponseModel(code = "EMAIL_VERIFIED_ALREADY",
-          message = "Email has already been verified"))))
+        Future.successful(Conflict(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeAlreadyVerfified,
+          message = EmailConstants.messageAlreadyVerfified))))
       case email if email.contains("bademailrequest") =>
-        Future.successful(BadRequest(Json.toJson(VerificationErrorResponseModel(code = "BAD_EMAIL_REQUEST",
-          message = "Template not found"))))
+        Future.successful(BadRequest(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeBadEmailRequest,
+          message = EmailConstants.messageBadEmailRequest))))
       case email if email.contains("internalservererrorrequest") =>
         Future.successful(InternalServerError(Json.toJson(VerificationErrorResponseModel(
-          code = "UNEXPECTED_ERROR", message = "An unexpected error occured"))))
+          code = EmailConstants.codeUnexpectedError, message = EmailConstants.messageUnexpectedError))))
       case email if email.contains("upstreamerror") =>
         Future.successful(BadGateway(Json.toJson(VerificationErrorResponseModel(
-          code = "UPSTREAM_ERROR", message = "POST of 'http://localhost:11111/send-templated-email' returned 500. Response body: 'some-5xx-message'"))))
+          code = EmailConstants.codeUpstreamError, message = EmailConstants.messageUpstreamError))))
       case email if email.contains("getsubmittedjson") => {
-        Logger.info(s"[SubscriptionStubController][getsubmittedJson] is: ${Json.toJson(verificationModel)}")
+        Logger.info(s"[EmailStubController][getsubmittedJson] is: ${Json.toJson(verificationModel)}")
         Future.successful(BadRequest(Json.toJson(verificationModel)))
       }
       case _ => {
@@ -87,16 +92,18 @@ trait EmailStubController extends BaseController with Authorisation {
 
     emailAddress.toLowerCase() match {
       case email if email.contains("notokenfound") =>
-        Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = "EMAIL_NOT_FOUND_OR_NOT_VERIFIED", message = "Token not found or expired."))))
+        Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeNotVerfified,
+          message = EmailConstants.messageNotVerfified))))
       case email if email.contains("notfound") =>
-        Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = "NOT_FOUND",
-          message = "URI not found", details = Some(Map("requestedUrl" -> "/email-verification/non-existent-url"))))))
+        Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeNotFound,
+          message = EmailConstants.messageNotFound,
+          details = Some(Map(EmailConstants.detailNotFoundKey -> EmailConstants.detailNotFoundMessage))))))
       case email if email.contains("internalservererrorrequest") =>
         Future.successful(InternalServerError(Json.toJson(VerificationErrorResponseModel(
-          code = "UNEXPECTED_ERROR", message = "An unexpected error occured"))))
+          code = EmailConstants.codeUnexpectedError, message = EmailConstants.messageUnexpectedError))))
       case email if email.contains("upstreamerror") =>
         Future.successful(BadGateway(Json.toJson(VerificationErrorResponseModel(
-          code = "UPSTREAM_ERROR", message = "POST of 'http://localhost:11111/send-templated-email' returned 500. Response body: 'some-5xx-message'"))))
+          code = EmailConstants.codeUpstreamError, message = EmailConstants.messageUpstreamError))))
       case _ => {
         Future.successful(Ok(Json.toJson(VerifiedEmailResponseModel(email = emailAddress))))
       }
