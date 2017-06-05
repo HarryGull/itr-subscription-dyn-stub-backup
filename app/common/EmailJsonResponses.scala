@@ -16,11 +16,11 @@
 
 package common
 
-import play.api.libs.json.Json
+import play.api.libs.json.{JsValue, Json}
 
 object EmailJsonResponses {
 
-  def getPostJson(email:String) = Json.parse(
+  def getPostJson(email:String):JsValue = Json.parse(
     s"""
       |{
       |  "email": "$email",

@@ -16,7 +16,6 @@
 
 package common
 
-
 object EmailConstants {
 
   val messageNotVerfified = "Token not found or expired."
@@ -27,7 +26,6 @@ object EmailConstants {
 
   val messageBadEmailRequest = "Template not found"
   val codeBadEmailRequest = "BAD_EMAIL_REQUEST"
-
 
   val messageUpstreamError = "POST of 'http://localhost:11111/send-templated-email' returned 500. Response body: 'some-5xx-message'"
   val codeUpstreamError = "UPSTREAM_ERROR"
@@ -44,9 +42,5 @@ object EmailConstants {
   val messageValidationError = "Payload validation failed"
   val detailValidationErrorKey = "obj.email"
   val detailValidationErrorMessage = "error.path.missing"
-
-
-
-
 
 }
