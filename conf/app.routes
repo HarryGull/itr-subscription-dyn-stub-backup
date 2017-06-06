@@ -3,6 +3,9 @@
 POST     /taxpayers/:safeId/subscription      controllers.SubscriptionStubController.createSubscription(safeId: String)
 GET      /taxpayers/:tavcRefNumber/subscription      controllers.SubscriptionStubController.getSubscription(tavcRefNumber: String)
 
+POST      /verification-requests                    controllers.EmailStubController.verificationRequest
+GET       /verified-email-addresses/:email          controllers.EmailStubController.verifyEmailAddress(email: String)
 
 #/tax-assured-venture-capital/taxpayers/XADD00000001234/subscription
 #/tax-assured-venture-capital/taxpayers/XATAVC000421817/subscription
+#POST    /taxpayers/:tavcReferenceId/returns      controllers.EmailStubController.createVerification(tavcReferenceId: String)
