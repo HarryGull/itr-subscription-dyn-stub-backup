@@ -16,7 +16,6 @@
 
 package controllers
 
-
 import auth.{Authorisation, Authorised, NotAuthorised}
 import common.EmailConstants
 import play.api.Logger
@@ -35,7 +34,6 @@ trait EmailStubController extends BaseController with Authorisation {
   val response = (message: String) => s"""{"reason" : "$message"}"""
 
   def verificationRequest(): Action[JsValue] = Action.async(BodyParsers.parse.json) { implicit request =>
-    //Logger.info(s"[EmailStubController][createSubscription]")
     request.body.validate[EmailVerificationRequestModel].fold(
       invalid = { err =>
         Future.successful(BadRequest(Json.obj("message" -> JsError.toFlatJson(err))))
@@ -49,7 +47,6 @@ trait EmailStubController extends BaseController with Authorisation {
   def verifyEmailAddress(email: String): Action[AnyContent] = Action.async { implicit request =>
     getEmailVerificationResponse(email)
   }
-
 
   //noinspection ScalaStyle
   private def postEmailVerificationResponse(verificationModel: EmailVerificationRequestModel): Future[Result] = {
@@ -77,15 +74,13 @@ trait EmailStubController extends BaseController with Authorisation {
       case email if email.contains("upstreamerror") =>
         Future.successful(BadGateway(Json.toJson(VerificationErrorResponseModel(
           code = EmailConstants.codeUpstreamError, message = EmailConstants.messageUpstreamError))))
-      case email if email.contains("notverifiedany") =>
+      case email if email.contains("notverified") =>
         GetResponseForStatus(email)
       case email if email.contains("getsubmittedjson") => {
         Logger.info(s"[EmailStubController][getsubmittedJson] is: ${Json.toJson(verificationModel)}")
         Future.successful(BadRequest(Json.toJson(verificationModel)))
       }
-      case _ => {
-        Future.successful(Created)
-      }
+      case _ => Future.successful(Created)
     }
   }
 
@@ -106,7 +101,7 @@ trait EmailStubController extends BaseController with Authorisation {
       case email if email.contains("upstreamerror") =>
         Future.successful(BadGateway(Json.toJson(VerificationErrorResponseModel(
           code = EmailConstants.codeUpstreamError, message = EmailConstants.messageUpstreamError))))
-      case email if email.contains("notverifiedany") =>
+      case email if email.contains("notverified") =>
         Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeNotVerfified,
           message = EmailConstants.messageNotVerfified))))
       case _ => {
@@ -115,34 +110,37 @@ trait EmailStubController extends BaseController with Authorisation {
     }
   }
 
+  //noinspection ScalaStyle
   private def GetResponseForStatus(emailAddress: String) = {
     emailAddress.toLowerCase() match {
-      case email if email.contains("404A") =>
+      case email if email.contains("notverified404a") =>
         Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeNotVerfified,
           message = EmailConstants.messageNotVerfified))))
-      case email if email.contains("404B") =>
+      case email if email.contains("notverified404b") =>
         Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeNotFound,
           message = EmailConstants.messageNotFound,
           details = Some(Map(EmailConstants.detailNotFoundKey -> EmailConstants.detailNotFoundMessage))))))
-      case email if email.contains("502") =>
+      case email if email.contains("notverified502") =>
         Future.successful(BadGateway(Json.toJson(VerificationErrorResponseModel(
           code = EmailConstants.codeUpstreamError, message = EmailConstants.messageUpstreamError))))
-      case email if email.contains("500") =>
+      case email if email.contains("notverified500") =>
         Future.successful(InternalServerError(Json.toJson(VerificationErrorResponseModel(
           code = EmailConstants.codeUnexpectedError, message = EmailConstants.messageUnexpectedError))))
-      case email if email.contains("400") =>
+      case email if email.contains("notverified400") =>
         Future.successful(BadRequest(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeValidationError,
           message = EmailConstants.messageValidationError,
           details = Some(Map(EmailConstants.detailValidationErrorKey -> EmailConstants.detailValidationErrorMessage))))))
-      case email if email.contains("409") =>
+      case email if email.contains("notverified409") =>
         Future.successful(Conflict(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeAlreadyVerfified,
           message = EmailConstants.messageAlreadyVerfified))))
-      case email if email.contains("400B") =>
+      case email if email.contains("notverified400b") =>
         Future.successful(BadRequest(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeBadEmailRequest,
           message = EmailConstants.messageBadEmailRequest))))
-     case _ => {
-        Future.successful(Ok(Json.toJson(VerifiedEmailResponseModel(email = emailAddress))))
-      }
+      case email if email.contains("notverified201") =>
+        Future.successful(Created)
+     case _ =>
+       println(s"email is $emailAddress")
+       Future.successful(Created)
     }
 
   }
