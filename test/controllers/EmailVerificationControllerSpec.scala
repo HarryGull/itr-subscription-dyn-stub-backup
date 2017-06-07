@@ -136,6 +136,103 @@ class EmailVerificationControllerSpec extends UnitSpec with OneAppPerSuite with 
     }
   }
 
+  // notverifiedWithResponse
+
+  "The email stub POST request" should {
+    "return a not Found status with expected not verified json error response for email containing notverified404A" in new Setup {
+      println(EmailJsonResponses.getPostJson("notverified404A@test.com"))
+
+      val result = TestController.verificationRequest().apply(FakeRequest().withBody(EmailJsonResponses.getPostJson("testnotverified404atest@test.com")))
+      val emailResponse: VerificationErrorResponseModel = jsonBodyOf(result).as[VerificationErrorResponseModel]
+      emailResponse.code shouldBe EmailConstants.codeNotVerfified
+      emailResponse.message shouldBe EmailConstants.messageNotVerfified
+      emailResponse.details shouldBe None
+      status(result) shouldBe NOT_FOUND
+
+    }
+  }
+  "The email stub POST request" should {
+    "return a not Found status with expected not verified json error response for email containing notverified404b" in new Setup {
+      val result = TestController.verificationRequest().apply(FakeRequest().withBody(EmailJsonResponses.getPostJson("testnotverified404btest@test.com")))
+      val emailResponse: VerificationErrorResponseModel = jsonBodyOf(result).as[VerificationErrorResponseModel]
+      emailResponse.code shouldBe EmailConstants.codeNotFound
+      emailResponse.message shouldBe EmailConstants.messageNotFound
+      emailResponse.details.get.head._1 shouldBe EmailConstants.detailNotFoundKey
+      emailResponse.details.get.head._2 shouldBe EmailConstants.detailNotFoundMessage
+      status(result) shouldBe NOT_FOUND
+
+    }
+  }
+
+  "The email stub POST request" should {
+    "return a not bad gateway status with expected not verified json error response for email containing notverified502" in new Setup {
+      val result = TestController.verificationRequest().apply(FakeRequest().withBody(EmailJsonResponses.getPostJson("testnotverified502test@test.com")))
+      val emailResponse: VerificationErrorResponseModel = jsonBodyOf(result).as[VerificationErrorResponseModel]
+      emailResponse.code shouldBe EmailConstants.codeUpstreamError
+      emailResponse.message shouldBe EmailConstants.messageUpstreamError
+      emailResponse.details shouldBe None
+      status(result) shouldBe BAD_GATEWAY
+
+    }
+  }
+
+  "The email stub POST request" should {
+    "return an internal server error status with expected not verified json error response for email containing notverified500" in new Setup {
+      val result = TestController.verificationRequest().apply(FakeRequest().withBody(EmailJsonResponses.getPostJson("testnotverified500test@test.com")))
+      val emailResponse: VerificationErrorResponseModel = jsonBodyOf(result).as[VerificationErrorResponseModel]
+      emailResponse.code shouldBe EmailConstants.codeUnexpectedError
+      emailResponse.message shouldBe EmailConstants.messageUnexpectedError
+      emailResponse.details shouldBe None
+      status(result) shouldBe INTERNAL_SERVER_ERROR
+
+    }
+  }
+
+  "The email stub POST request" should {
+    "return a bad request status with expected not verified json error response for email containing notverified400" in new Setup {
+      val result = TestController.verificationRequest().apply(FakeRequest().withBody(EmailJsonResponses.getPostJson("testnotverified400test@test.com")))
+      val emailResponse: VerificationErrorResponseModel = jsonBodyOf(result).as[VerificationErrorResponseModel]
+      emailResponse.code shouldBe EmailConstants.codeValidationError
+      emailResponse.message shouldBe EmailConstants.messageValidationError
+      emailResponse.details.get.head._1 shouldBe EmailConstants.detailValidationErrorKey
+      emailResponse.details.get.head._2 shouldBe EmailConstants.detailValidationErrorMessage
+      status(result) shouldBe BAD_REQUEST
+
+    }
+  }
+
+  "The email stub POST request" should {
+    "return a bad request status with expected not verified json error response for email containing notverified400b" in new Setup {
+      val result = TestController.verificationRequest().apply(FakeRequest().withBody(EmailJsonResponses.getPostJson("testnotverified400btest@test.com")))
+      val emailResponse: VerificationErrorResponseModel = jsonBodyOf(result).as[VerificationErrorResponseModel]
+      emailResponse.code shouldBe EmailConstants.codeValidationError
+      emailResponse.message shouldBe EmailConstants.messageValidationError
+      emailResponse.details.get.head._1 shouldBe EmailConstants.detailValidationErrorKey
+      emailResponse.details.get.head._2 shouldBe EmailConstants.detailValidationErrorMessage
+      status(result) shouldBe BAD_REQUEST
+
+    }
+  }
+
+  "The email stub POST request" should {
+    "return a conflict status with expected not verified json error response for email containing notverified409" in new Setup {
+      val result = TestController.verificationRequest().apply(FakeRequest().withBody(EmailJsonResponses.getPostJson("testnotverified409test@test.com")))
+      val emailResponse: VerificationErrorResponseModel = jsonBodyOf(result).as[VerificationErrorResponseModel]
+      emailResponse.code shouldBe EmailConstants.codeAlreadyVerfified
+      emailResponse.message shouldBe EmailConstants.messageAlreadyVerfified
+      emailResponse.details shouldBe None
+      status(result) shouldBe CONFLICT
+
+    }
+  }
+
+  "The email stub POST request" should {
+    "return a created email containing notverified201" in new Setup {
+      val result = TestController.verificationRequest().apply(FakeRequest().withBody(EmailJsonResponses.getPostJson("testnotverified201test@test.com")))
+      status(result) shouldBe CREATED
+    }
+  }
+
   //getSubmittedJson
   "The email stub POST request" should {
     "return a bad request and the submitted Json as the return response" in new Setup {
