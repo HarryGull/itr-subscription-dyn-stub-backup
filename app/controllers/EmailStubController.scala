@@ -77,6 +77,8 @@ trait EmailStubController extends BaseController with Authorisation {
       case email if email.contains("upstreamerror") =>
         Future.successful(BadGateway(Json.toJson(VerificationErrorResponseModel(
           code = EmailConstants.codeUpstreamError, message = EmailConstants.messageUpstreamError))))
+      case email if email.contains("notverifiedany") =>
+        GetResponseForStatus(email)
       case email if email.contains("getsubmittedjson") => {
         Logger.info(s"[EmailStubController][getsubmittedJson] is: ${Json.toJson(verificationModel)}")
         Future.successful(BadRequest(Json.toJson(verificationModel)))
@@ -104,10 +106,44 @@ trait EmailStubController extends BaseController with Authorisation {
       case email if email.contains("upstreamerror") =>
         Future.successful(BadGateway(Json.toJson(VerificationErrorResponseModel(
           code = EmailConstants.codeUpstreamError, message = EmailConstants.messageUpstreamError))))
+      case email if email.contains("notverifiedany") =>
+        Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeNotVerfified,
+          message = EmailConstants.messageNotVerfified))))
       case _ => {
         Future.successful(Ok(Json.toJson(VerifiedEmailResponseModel(email = emailAddress))))
       }
     }
   }
 
+  private def GetResponseForStatus(emailAddress: String) = {
+    emailAddress.toLowerCase() match {
+      case email if email.contains("404A") =>
+        Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeNotVerfified,
+          message = EmailConstants.messageNotVerfified))))
+      case email if email.contains("404B") =>
+        Future.successful(NotFound(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeNotFound,
+          message = EmailConstants.messageNotFound,
+          details = Some(Map(EmailConstants.detailNotFoundKey -> EmailConstants.detailNotFoundMessage))))))
+      case email if email.contains("502") =>
+        Future.successful(BadGateway(Json.toJson(VerificationErrorResponseModel(
+          code = EmailConstants.codeUpstreamError, message = EmailConstants.messageUpstreamError))))
+      case email if email.contains("500") =>
+        Future.successful(InternalServerError(Json.toJson(VerificationErrorResponseModel(
+          code = EmailConstants.codeUnexpectedError, message = EmailConstants.messageUnexpectedError))))
+      case email if email.contains("400") =>
+        Future.successful(BadRequest(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeValidationError,
+          message = EmailConstants.messageValidationError,
+          details = Some(Map(EmailConstants.detailValidationErrorKey -> EmailConstants.detailValidationErrorMessage))))))
+      case email if email.contains("409") =>
+        Future.successful(Conflict(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeAlreadyVerfified,
+          message = EmailConstants.messageAlreadyVerfified))))
+      case email if email.contains("400B") =>
+        Future.successful(BadRequest(Json.toJson(VerificationErrorResponseModel(code = EmailConstants.codeBadEmailRequest,
+          message = EmailConstants.messageBadEmailRequest))))
+     case _ => {
+        Future.successful(Ok(Json.toJson(VerifiedEmailResponseModel(email = emailAddress))))
+      }
+    }
+
+  }
 }
